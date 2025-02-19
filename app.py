@@ -25,3 +25,8 @@ albums = album_repository.all()
 # List them out
 for album in albums:
     print(album)
+
+# Retrieve album with id 1
+
+album_1 = album_repository.find(1)
+print(album_1)
