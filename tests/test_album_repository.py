@@ -33,3 +33,27 @@ def test_find_single_album_by_id(db_connection):
     repository = AlbumRepository(db_connection)
     album_1 = repository.find(1)
     assert album_1 == Album(1, "Doolittle", 1989, 1)
+
+"""
+When we call AlbumRepository.create()
+A new album is added to the database
+"""
+def test_create_method_adds_record_to_dataabse(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = AlbumRepository(db_connection)
+    repository.create("Voyage", 2021, 2)
+    albums = repository.all()
+    assert len(albums) == 13
+    assert albums[-1].title == "Voyage"
+
+"""
+When we call AlbumRepository.delete()
+The album is deleted
+"""
+def test_delete_method(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = AlbumRepository(db_connection)
+    repository.delete(1)
+    albums = repository.all()
+    assert len(albums) == 11
+    assert Album(1, "Doolittle", 1989, 1) not in albums
